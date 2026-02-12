@@ -1,0 +1,85 @@
+@ACCESS_TOKEN= eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJlNGJmYWNhOS03MjkyLTRjNGItOTFhZS00OTBhNGNlMTNiYWYiLCJlbWFpbCI6ImpvbmF0aGFubXdhbmRpNkBnbWFpbC5jb20iLCJyb2xlIjoiU1RVREVOVCIsImlhdCI6MTc3MDc5MDYyNywiZXhwIjoxNzcwODc3MDI3fQ.KVbC7HcxlM8FKKNIytn9E_gLa2AeNjsTg6_Ln-93kb0
+
+@VIDEO_ID = 3ec33c59-dfab-4898-ae9e-99dab2cb6a5e
+@commentId = 18c80d59-a343-4828-8d15-1c5995e04d9e
+@baseUrl = http://localhost:3000
+
+### Create a new video
+POST http://localhost:3000/videos
+Content-Type: application/json
+Authorization: Bearer {{ACCESS_TOKEN}}
+
+{
+  "title": "My First Video",
+  "description": "This is a sample video description.",
+  "tags": ["fun", "education"],
+  "videoUrl": "https://res.cloudinary.com/demo/video/upload/sample.mp4"
+}
+
+### Get all videos
+GET http://localhost:3000/videos
+Authorization: Bearer {{ACCESS_TOKEN}}
+
+### Get a single video by ID
+GET http://localhost:3000/videos/{{VIDEO_ID}}
+Authorization: Bearer {{ACCESS_TOKEN}}
+
+### Update a video
+PATCH http://localhost:3000/videos/{{VIDEO_ID}}
+Content-Type: application/json
+Authorization: Bearer {{ACCESS_TOKEN}}
+
+{
+  "title": "Updated Video Title",
+  "description": "Updated description here",
+  "tags": ["updated", "learning"],
+  "videoUrl": "https://res.cloudinary.com/demo/video/upload/updated-video.mp4"
+}
+
+### Delete a video
+DELETE http://localhost:3000/videos/{{VIDEO_ID}}
+Accept: application/json
+
+
+### Like a Video
+POST {{baseUrl}}/video-like/{{VIDEO_ID}}
+Authorization: Bearer {{ACCESS_TOKEN}}
+
+
+### Unlike a Video
+DELETE {{baseUrl}}/video-like/{{VIDEO_ID}}
+Authorization: Bearer {{ACCESS_TOKEN}}
+
+### Check Like Status
+
+GET {{baseUrl}}/video-like/{{VIDEO_ID}}
+Authorization: Bearer {{ACCESS_TOKEN}}
+
+### CREATE COMMENT
+POST {{baseUrl}}/video-comment/{{VIDEO_ID}}
+Authorization: Bearer {{ACCESS_TOKEN}}
+Content-Type: application/json
+
+{
+  "content": "This video is super helpful 🔥"
+}
+
+
+### GET COMMENTS BY VIDEO
+GET {{baseUrl}}/video-comment/video/{{VIDEO_ID}}
+Authorization: Bearer {{ACCESS_TOKEN}}
+
+
+### UPDATE COMMENT
+PATCH {{baseUrl}}/video-comment/{{commentId}}
+Authorization: Bearer {{ACCESS_TOKEN}}
+Content-Type: application/json
+
+{
+  "content": "This video is super helpful 🔥✨"
+}
+
+
+### DELETE COMMENT (Soft Delete)
+DELETE {{baseUrl}}/video-comment/{{commentId}}
+Authorization: Bearer {{ACCESS_TOKEN}}

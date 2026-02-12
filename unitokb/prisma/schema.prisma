@@ -1,0 +1,182 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
+// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
+
+generator client {
+  provider = "prisma-client-js"
+   output   = "../generated/prisma"
+}
+
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id             String         @id @default(uuid())
+  email          String         @unique
+  password       String
+  name           String
+  phone          String?        @unique
+  role           UserRole       @default(STUDENT)
+  status         AccountStatus  @default(ACTIVE)
+
+  // Profile
+  bio            String?
+  avatarUrl      String?
+  institution    String?        // e.g., Chuka University
+  course         String?
+  yearOfStudy    Int?
+  location       String?
+
+  // Authentication
+  isVerified     Boolean        @default(false)
+  verifyToken    String?
+  verifyTokenExpiresAt DateTime?
+  resetToken     String?
+  resetTokenExpiresAt DateTime?
+  lastLogin      DateTime?
+  isDeleted      Boolean        @default(false)
+  deletedAt      DateTime?
+
+  // Relationships
+  videos         UniTokVideo[]        // User's UniTok videos/posts
+  followers      Follow[]       @relation("UserFollowers")
+  following      Follow[]       @relation("UserFollowing")
+  likes          UniTokVideoLike[]
+  comments       UniTokComment[]
+  profile        Profile?
+
+  // Admin Relations
+  // institutionAdmins InstitutionAdmin[]
+  // announcements      InstitutionAnnouncement[]
+
+  // System
+  createdAt      DateTime       @default(now())
+  updatedAt      DateTime       @updatedAt
+
+  @@map("users")
+}
+
+model Profile {
+  id                String             @id @default(uuid())
+  name              String
+  academicLevel     String
+  skills            String[]
+  bio               String?
+  profileImage      String?
+  coverPhoto        String?
+  createdAt         DateTime           @default(now())
+  updatedAt         DateTime           @updatedAt
+  userId            String             @unique
+  interests         String[]
+  course            String?
+  institutionId     String
+  institution       Institution        @relation(fields: [institutionId], references: [id])
+  user              User               @relation(fields: [userId], references: [id])
+
+  @@index([skills], type: Gin)
+  @@index([interests], type: Gin)
+  @@index([institutionId])
+  @@index([course])
+  @@index([academicLevel])
+}
+
+model Institution {
+  id            String                    @id @default(uuid())
+  name          String                    @unique
+  createdAt     DateTime                  @default(now())
+  updatedAt     DateTime                  @updatedAt
+  profiles      Profile[]
+}
+
+model UniTokVideo {
+  id          String   @id @default(uuid())
+
+  // Relations
+  creator     User     @relation(fields: [creatorId], references: [id], onDelete: Cascade)
+  creatorId   String
+
+  // Core content
+  title       String   @db.VarChar(150)
+  description String?
+  videoUrl    String
+
+  // Metadata
+  tags        String[] @default([])
+
+  // Engagement
+  commentsCount  Int      @default(0)
+  likesCount  Int      @default(0)
+
+  comments    UniTokComment[]
+  likes       UniTokVideoLike[]
+
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  @@index([creatorId])
+  @@index([createdAt])
+}
+
+model UniTokVideoLike {
+  id        String      @id @default(uuid())
+
+  video     UniTokVideo @relation(fields: [videoId], references: [id], onDelete: Cascade)
+  videoId  String
+
+  user      User        @relation(fields: [userId], references: [id], onDelete: Cascade)
+  userId   String
+
+  createdAt DateTime    @default(now())
+
+  @@unique([videoId, userId])
+  @@index([videoId])
+  @@index([userId])
+}
+
+model UniTokComment {
+  id        String      @id @default(uuid())
+
+  video     UniTokVideo @relation(fields: [videoId], references: [id], onDelete: Cascade)
+  videoId  String
+
+  author    User        @relation(fields: [authorId], references: [id], onDelete: Cascade)
+  authorId String
+
+  content   String
+  isDeleted Boolean? @default(false)
+
+  createdAt DateTime    @default(now())
+
+  @@index([videoId])
+  @@index([authorId])
+}
+
+model Follow {
+  id           String @id @default(uuid())
+  followerId   String
+  followingId  String
+
+  follower     User   @relation("UserFollowing", fields: [followerId], references: [id])
+  following    User   @relation("UserFollowers", fields: [followingId], references: [id])
+
+  createdAt    DateTime @default(now())
+
+  @@unique([followerId, followingId])
+}
+
+
+enum UserRole {
+  STUDENT
+  ADMIN
+}
+
+enum AccountStatus {
+  ACTIVE
+  SUSPENDED
+  DEACTIVATED
+}
