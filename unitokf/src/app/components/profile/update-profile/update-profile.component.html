@@ -1,0 +1,134 @@
+<div
+  *ngIf="showProfileModal"
+  class="fixed inset-0 z-50 flex items-center justify-center bg-black/40 backdrop-blur-sm"
+>
+  <!-- Modal Container -->
+  <div
+    class="bg-white w-full max-w-4xl max-h-[90vh] overflow-y-auto rounded-3xl shadow-2xl relative animate-fade-in border border-pink-100"
+  >
+    <!-- Close Button -->
+    <button
+      (click)="closeProfileModal()"
+      class="absolute top-4 right-4 text-gray-400 hover:text-black transition duration-200 text-2xl font-light"
+      aria-label="Close"
+    >
+      &times;
+    </button>
+
+    <!-- Cover Section -->
+    <div class="h-52 bg-gradient-to-r from-pink-500 via-purple-500 to-indigo-500 relative rounded-t-3xl overflow-hidden">
+      <img
+        *ngIf="coverPreview"
+        [src]="coverPreview"
+        class="absolute inset-0 w-full h-full object-cover"
+      />
+      <label
+        class="absolute top-3 right-3 cursor-pointer bg-black/40 text-white px-4 py-1 rounded-full shadow hover:bg-black/60 text-xs font-semibold transition"
+      >
+        <input
+          type="file"
+          class="hidden"
+          (change)="onCoverPhotoSelected($event)"
+        />
+        Change Cover
+      </label>
+    </div>
+
+    <!-- Profile Image -->
+    <div class="relative -mt-16 flex justify-center">
+      <div class="relative">
+        <img
+          *ngIf="profilePreview"
+          [src]="profilePreview"
+          class="w-28 h-28 rounded-full border-4 border-white object-cover shadow-xl ring-4 ring-pink-500"
+        />
+        <div
+          *ngIf="!profilePreview"
+          class="w-28 h-28 bg-gradient-to-br from-pink-200 to-purple-300 rounded-full border-4 border-white shadow-xl"
+        ></div>
+        <label
+          class="absolute bottom-0 right-0 bg-gradient-to-r from-pink-500 to-purple-500 text-white p-1.5 rounded-full cursor-pointer shadow hover:scale-105 transition"
+        >
+          <input
+            type="file"
+            class="hidden"
+            (change)="onProfileImageSelected($event)"
+          />
+          <span class="text-xs font-semibold">Edit</span>
+        </label>
+      </div>
+    </div>
+
+    <!-- Editable Form -->
+    <form
+      [formGroup]="profileForm"
+      (ngSubmit)="onSubmit()"
+      class="px-8 pt-6 pb-8 grid gap-6 grid-cols-1 md:grid-cols-2"
+    >
+      <!-- Full Name -->
+      <div class="space-y-1">
+        <label class="text-sm font-semibold text-gray-700">Full Name</label>
+        <input
+          formControlName="name"
+          type="text"
+          class="w-full px-4 py-3 rounded-xl border border-gray-200 bg-gray-50 focus:outline-none focus:ring-2 focus:ring-pink-500 focus:border-transparent transition"
+        />
+      </div>
+
+      <!-- Institution -->
+      <div class="space-y-1">
+        <label class="text-sm font-semibold text-gray-700">Institution</label>
+        <select
+          formControlName="institutionId"
+          class="w-full px-4 py-3 rounded-xl border border-gray-200 bg-gray-50 focus:outline-none focus:ring-2 focus:ring-purple-500 focus:border-transparent transition"
+        >
+          <option value="" disabled>Select your institution</option>
+          <option *ngFor="let inst of institutions" [value]="inst.id">
+            {{ inst.name }}
+          </option>
+        </select>
+      </div>
+
+      <!-- Academic Level -->
+      <div class="space-y-1">
+        <label class="text-sm font-semibold text-gray-700">Academic Level</label>
+        <input
+          formControlName="academicLevel"
+          type="text"
+          class="w-full px-4 py-3 rounded-xl border border-gray-200 bg-gray-50 focus:outline-none focus:ring-2 focus:ring-pink-500 focus:border-transparent transition"
+        />
+      </div>
+
+      <!-- Skills -->
+      <div class="space-y-1">
+        <label class="text-sm font-semibold text-gray-700">Skills (comma separated)</label>
+        <input
+          formControlName="skills"
+          type="text"
+          class="w-full px-4 py-3 rounded-xl border border-gray-200 bg-gray-50 focus:outline-none focus:ring-2 focus:ring-purple-500 focus:border-transparent transition"
+        />
+      </div>
+
+      <!-- Bio -->
+      <div class="md:col-span-2 space-y-1">
+        <label class="text-sm font-semibold text-gray-700">Bio</label>
+        <textarea
+          formControlName="bio"
+          rows="4"
+          class="w-full px-4 py-3 rounded-xl border border-gray-200 bg-gray-50 focus:outline-none focus:ring-2 focus:ring-pink-500 focus:border-transparent transition resize-none"
+        ></textarea>
+      </div>
+
+      <!-- Submit Button -->
+      <div class="md:col-span-2 flex justify-end pt-2">
+        <button
+          type="submit"
+          [disabled]="profileForm.invalid"
+          class="px-8 py-3 rounded-full font-semibold text-white bg-gradient-to-r from-pink-500 via-purple-500 to-indigo-500 hover:scale-105 hover:shadow-xl transition-all duration-300 disabled:opacity-50 disabled:hover:scale-100"
+        >
+          Save Changes
+        </button>
+      </div>
+    </form>
+  </div>
+</div>

@@ -1,8 +1,39 @@
-import { ApplicationConfig, provideZoneChangeDetection } from '@angular/core';
+import { ApplicationConfig, importProvidersFrom, provideZoneChangeDetection } from '@angular/core';
 import { provideRouter } from '@angular/router';
-
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { routes } from './app.routes';
+import { provideToastr, ToastrModule } from 'ngx-toastr';
+import { provideHttpClient, withInterceptorsFromDi } from '@angular/common/http';
+import { HTTP_INTERCEPTORS } from '@angular/common/http';
+import { TimeagoModule } from 'ngx-timeago';
+import { AuthInterceptor } from './auth/auth.interceptor';
+
+import { NgxSkeletonLoaderModule } from 'ngx-skeleton-loader';
 
 export const appConfig: ApplicationConfig = {
-  providers: [provideZoneChangeDetection({ eventCoalescing: true }), provideRouter(routes)]
+  providers: [
+    provideZoneChangeDetection({ eventCoalescing: true }),
+    provideRouter(routes),
+    importProvidersFrom(
+      BrowserAnimationsModule,
+      ToastrModule.forRoot({
+        positionClass: 'toast-top-right',
+        timeOut: 3000,
+        progressBar: true,
+        closeButton: true,
+        tapToDismiss: true,
+        preventDuplicates: true,
+      }),
+      NgxSkeletonLoaderModule,
+      TimeagoModule.forRoot()
+      ),
+
+    provideHttpClient(withInterceptorsFromDi()),
+    // provideToastr(),
+    {
+      provide: HTTP_INTERCEPTORS,
+      useClass: AuthInterceptor,
+      multi: true
+    }
+  ]
 };

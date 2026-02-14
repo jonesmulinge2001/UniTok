@@ -1,6 +1,6 @@
 import {LoginResponse } from './../interfaces';
 import { Injectable } from '@angular/core';
-import { environment } from '../../environments/environment.prod';
+import { environment } from '../../environments/environment';
 import { BehaviorSubject, Observable } from 'rxjs';
 import { GenericResponse, LoginRequest, Profile, RegisterRequest, RegisterResponse, ResetPasswordRequest, VerifyEmailRequest } from '../interfaces';
 import { HttpClient } from '@angular/common/http';

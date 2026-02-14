@@ -1,0 +1,144 @@
+<div class="min-h-screen flex items-center justify-center bg-gradient-to-br from-black via-gray-900 to-gray-800 px-4 relative overflow-hidden text-white">
+
+    <!-- Floating Video / Creator Icons -->
+    <span class="material-icons absolute top-12 left-10 text-pink-500 opacity-40 animate-float-slow">smart_display</span>
+    <span class="material-icons absolute top-24 right-16 text-cyan-400 opacity-40 animate-float-medium">video_library</span>
+    <span class="material-icons absolute bottom-24 left-16 text-purple-500 opacity-40 animate-float-fast">auto_awesome</span>
+    <span class="material-icons absolute bottom-16 right-12 text-yellow-400 opacity-40 animate-float-medium">bolt</span>
+    <span class="material-icons absolute top-40 left-1/2 text-green-400 opacity-40 animate-float-slow">trending_up</span>
+  
+    <div class="w-full max-w-md bg-white/5 backdrop-blur-xl p-10 rounded-3xl shadow-2xl border border-white/10 relative z-10">
+  
+      <!-- Header -->
+      <div class="flex flex-col items-center mb-6 text-center">
+        <div class="bg-gradient-to-r from-pink-500 to-cyan-500 rounded-2xl w-16 h-16 flex items-center justify-center text-white text-3xl font-bold shadow-lg animate-bounce-slow">
+          <span class="material-icons">play_arrow</span>
+        </div>
+  
+        <h2 class="text-3xl font-extrabold mt-4 bg-gradient-to-r from-pink-400 to-cyan-400 bg-clip-text text-transparent">
+          Join UniTok
+        </h2>
+  
+        <p class="text-sm text-gray-300 mt-2">
+          Learn fast. Explain smarter. Grow together.
+        </p>
+      </div>
+  
+  <form [formGroup]="registerForm" (ngSubmit)="onSubmit()">
+  
+    <!-- Full Name -->
+    <div class="mb-4 relative">
+      <label class="block text-sm font-medium mb-1 text-gray-300">Full Name</label>
+      <span class="material-icons absolute left-3 top-9 text-gray-400">person</span>
+      <input
+        type="text"
+        formControlName="name"
+        placeholder="Your creator name..."
+        class="w-full pl-10 px-4 py-3 rounded-xl border border-white/10 bg-white/10 focus:outline-none focus:ring-2 focus:ring-pink-500 transition placeholder-gray-400"
+        [ngClass]="{ 'border-red-500': isInvalid('name'), 'border-white/10': !isInvalid('name') }"
+      />
+      <div *ngIf="registerForm.get('name')?.touched && registerForm.get('name')?.invalid"
+           class="text-red-400 text-sm mt-1">
+        Please provide your name
+      </div>
+    </div>
+  
+    <!-- Email -->
+    <div class="mb-4 relative">
+      <label class="block text-sm font-medium mb-1 text-gray-300">University Email</label>
+      <span class="material-icons absolute left-3 top-9 text-gray-400">alternate_email</span>
+      <input
+        type="email"
+        formControlName="email"
+        placeholder="yourname@university.ac.ke"
+        class="w-full pl-10 px-4 py-3 rounded-xl border border-white/10 bg-white/10 focus:outline-none focus:ring-2 focus:ring-cyan-500 transition placeholder-gray-400"
+        [ngClass]="{ 'border-red-500': isInvalid('email'), 'border-white/10': !isInvalid('email') }"
+      />
+      <div *ngIf="registerForm.get('email')?.touched && registerForm.get('email')?.invalid"
+           class="text-red-400 text-sm mt-1">
+        Enter a valid email
+      </div>
+    </div>
+  
+    <!-- Phone -->
+    <div class="mb-4 relative">
+      <label class="block text-sm font-medium mb-1 text-gray-300">Phone Number</label>
+      <span class="material-icons absolute left-3 top-9 text-gray-400">call</span>
+      <input
+        type="text"
+        formControlName="phone"
+        placeholder="+254..."
+        class="w-full pl-10 px-4 py-3 rounded-xl border border-white/10 bg-white/10 focus:outline-none focus:ring-2 focus:ring-purple-500 transition placeholder-gray-400"
+        [ngClass]="{ 'border-red-500': isInvalid('phone'), 'border-white/10': !isInvalid('phone') }"
+      />
+      <div *ngIf="registerForm.get('phone')?.touched && registerForm.get('phone')?.invalid"
+           class="text-red-400 text-sm mt-1">
+        <ng-container *ngIf="registerForm.get('phone')?.errors?.['required']">
+          Phone number is required.
+        </ng-container>
+        <ng-container *ngIf="registerForm.get('phone')?.errors?.['pattern']">
+          Enter a valid Kenyan phone number.
+        </ng-container>
+      </div>
+    </div>
+  
+    <!-- Password -->
+    <div class="mb-5 relative">
+      <label class="block text-sm font-medium mb-1 text-gray-300">Password</label>
+      <span class="material-icons absolute left-3 top-9 text-gray-400">lock</span>
+      <input
+        [type]="showPassword ? 'text' : 'password'"
+        formControlName="password"
+        placeholder="Create a strong password"
+        class="w-full pl-10 px-4 py-3 rounded-xl border border-white/10 bg-white/10 focus:outline-none focus:ring-2 focus:ring-pink-500 transition placeholder-gray-400"
+        [ngClass]="{ 'border-red-500': isInvalid('password'), 'border-white/10': !isInvalid('password') }"
+      />
+      <span class="absolute right-4 top-4 cursor-pointer text-gray-400"
+            (click)="toggleVisibility()">
+        <span class="material-icons">
+          {{ showPassword ? 'visibility_off' : 'visibility' }}
+        </span>
+      </span>
+  
+      <div *ngIf="registerForm.get('password')?.touched && registerForm.get('password')?.invalid"
+           class="text-red-400 text-sm mt-1">
+        Enter a correct password
+      </div>
+    </div>
+  
+    <!-- Submit -->
+    <button
+      type="submit"
+      class="w-full bg-gradient-to-r from-pink-500 via-purple-500 to-cyan-500 hover:opacity-90 text-white py-3 rounded-xl font-semibold shadow-lg transition transform hover:scale-105 flex items-center justify-center space-x-2">
+      <span>Create Account</span>
+      <span class="material-icons">arrow_forward</span>
+    </button>
+  
+  </form>
+  
+  <p class="text-sm text-center mt-5 text-gray-400">
+    Already on UniTok?
+    <a routerLink="/login"
+       class="text-cyan-400 cursor-pointer font-semibold hover:underline">
+      Log In
+    </a>
+  </p>
+  
+    </div>
+  </div>
+  
+  <!-- Animations -->
+  <style>
+    @keyframes bounce-slow { 0%,100%{transform:translateY(0);} 50%{transform:translateY(-12px);} }
+    .animate-bounce-slow { animation: bounce-slow 4s infinite; }
+  
+    @keyframes float-slow { 0%,100%{transform:translateY(0px);} 50%{transform:translateY(-20px);} }
+    .animate-float-slow { animation: float-slow 8s infinite ease-in-out; }
+  
+    @keyframes float-medium { 0%,100%{transform:translateY(0px);} 50%{transform:translateY(-30px);} }
+    .animate-float-medium { animation: float-medium 6s infinite ease-in-out; }
+  
+    @keyframes float-fast { 0%,100%{transform:translateY(0px);} 50%{transform:translateY(-40px);} }
+    .animate-float-fast { animation: float-fast 4s infinite ease-in-out; }
+  </style>
+  

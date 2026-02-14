@@ -156,7 +156,8 @@ export interface LikeStatusResponse {
 export interface VideoComment {
   id: string;
   videoId: string;
-  authorid: string;
+  authorId: string;
+  content: string;
   createdAt: string;
   updatedAt: string;
   author: {
