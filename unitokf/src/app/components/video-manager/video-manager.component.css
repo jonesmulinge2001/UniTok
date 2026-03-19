@@ -1,0 +1,21 @@
+.scroll-fade {
+    position: relative;
+  }
+  .scroll-fade::before,
+  .scroll-fade::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    width: 2rem;
+    pointer-events: none;
+    z-index: 10;
+  }
+  .scroll-fade::before {
+    left: 0;
+    background: linear-gradient(to right, white, transparent);
+  }
+  .scroll-fade::after {
+    right: 0;
+    background: linear-gradient(to left, white, transparent);
+  }

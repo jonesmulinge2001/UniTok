@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { environment } from '../../environments/environment.prod';
+import { environment } from '../../environments/environment';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { CreateVideoDto, UpdateVideoDto, Video } from '../interfaces';
 import { Observable } from 'rxjs';
@@ -60,5 +60,22 @@ export class UnitokVideoService {
     });
   }
 
+  // get all categories
+getCategories(): Observable<string[]> {
+  return this.http.get<string[]>(`${this.baseurl}/categories`, {
+    headers: this.getAuthHeaders(),
+  });
+}
+
+
+// get videos by category
+getVideosByCategory(category: string): Observable<Video[]> {
+  return this.http.get<Video[]>(
+    `${this.baseurl}/category/${encodeURIComponent(category)}`,
+    {
+      headers: this.getAuthHeaders(),
+    }
+  );
+}
 
 }

@@ -35,7 +35,7 @@ export class VideoCommentService {
 
   // get all comments for a video
   getComments(videoId: string): Observable<VideoComment[]> {
-    return this.http.get<VideoComment[]>(`${this.baseUrl}/${videoId}`, {
+    return this.http.get<VideoComment[]>(`${this.baseUrl}/video/${videoId}`, {
       headers: this.getAuthHeaders(),
     });
   }

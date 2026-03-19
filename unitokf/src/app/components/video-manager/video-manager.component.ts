@@ -72,6 +72,20 @@ export class VideoManagerComponent implements OnInit, OnDestroy {
   // Comment menu state
   commentMenuOpen: string | null = null;
 
+  // ================= CATEGORY SYSTEM =================
+categories: string[] = [
+  'All',
+  'Campus Life',
+  'Study Tips',
+  'Mental Health',
+  'Tech & Coding',
+  'Scholarships',
+  'Career Advice'
+];
+
+selectedCategory = 'All';
+isFilteringCategory = false;
+
   constructor(
     private videoService: UnitokVideoService,
     private commentService: VideoCommentService,
@@ -556,5 +570,38 @@ export class VideoManagerComponent implements OnInit, OnDestroy {
     if (videoFeed) {
       videoFeed.scrollIntoView({ behavior: 'smooth' });
     }
+  }
+
+
+  loadVideosByCategory(category: string): void {
+    this.selectedCategory = category;
+    this.isFilteringCategory = true;
+    this.videoError = null;
+  
+    // Load all videos
+    if (category === 'All') {
+      this.loadAllVideos();
+      this.isFilteringCategory = false;
+      return;
+    }
+  
+    this.videoService
+      .getVideosByCategory(category)
+      .pipe(takeUntil(this.destroy$))
+      .subscribe({
+        next: (videos) => {
+          this.videos = videos;
+          this.isFilteringCategory = false;
+  
+          if (videos.length > 0) {
+            this.loadAllLikeStatuses();
+          }
+        },
+        error: (error) => {
+          console.error(error);
+          this.videoError = 'Failed to load category videos';
+          this.isFilteringCategory = false;
+        },
+      });
   }
 }

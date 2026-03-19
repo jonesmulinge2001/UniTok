@@ -9,6 +9,11 @@ import { StudentLayoutComponent } from './layouts/student-layout/student-layout.
 import { authGuard } from './guards/auth.guard';
 import { CreateProfileComponent } from './components/profile/create-profile/create-profile.component';
 import { UpdateProfileComponent } from './components/profile/update-profile/update-profile.component';
+import { CreateVideoComponent } from './components/create-video/create-video.component';
+import { NetworkComponent } from './components/network/network.component';
+import { SearchResultsComponent } from './components/search-results/search-results.component';
+import { VideoDetailComponent } from './components/video-detail/video-detail.component';
+import { RequestComponent } from './components/request/request.component';
 
 export const routes: Routes = [
       // ==== Public routes (no layout) ====
@@ -26,9 +31,15 @@ export const routes: Routes = [
     canActivate: [authGuard],
     children: [
       { path: '', component: VideoManagerComponent },
+      {path: 'home', component: VideoManagerComponent},
       { path: 'create-profile', component: CreateProfileComponent },
       // { path: 'my-profile', component: MyProfileComponent },
       { path: 'update-profile', component: UpdateProfileComponent },
+      {path: 'network', component: NetworkComponent},
+      {path: 'create-video', component: CreateVideoComponent},
+      { path: 'search', component: SearchResultsComponent },
+      { path: 'request', component: RequestComponent },
+      { path: 'videos/:id', component: VideoDetailComponent },
 
     ]
   },

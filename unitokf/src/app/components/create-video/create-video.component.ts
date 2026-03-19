@@ -15,7 +15,7 @@ export class CreateVideoComponent {
   @Output() cancelled = new EventEmitter<void>();
 
   videoForm: FormGroup;
-  isSubmitting = false;
+  isSubmitting: boolean = false;
   error: string | null = null;
   videoPreviewUrl: string | null = null;
   selectedTags: string[] = [];

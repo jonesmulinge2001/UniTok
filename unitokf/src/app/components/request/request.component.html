@@ -1,0 +1,176 @@
+<div class="min-h-screen bg-gray-50">
+
+    <!-- HEADER -->
+    <div class="text-center py-12 bg-gray-100">
+      <h1 class="text-4xl font-bold text-gray-900">
+        Request a Video
+      </h1>
+  
+      <p class="text-gray-600 mt-4 max-w-2xl mx-auto">
+        Can't find the information you need? Request a video from our community
+        of student creators who are ready to help!
+      </p>
+  
+      <!-- STATS -->
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-6 max-w-4xl mx-auto mt-10">
+  
+        <div class="bg-white p-6 rounded-xl shadow text-center">
+          <div class="text-blue-500 text-3xl mb-2">
+            <span class="material-icons">chat</span>
+          </div>
+          <p class="text-3xl font-bold">150+</p>
+          <p class="text-gray-500">Requests</p>
+        </div>
+  
+        <div class="bg-white p-6 rounded-xl shadow text-center">
+          <div class="text-green-500 text-3xl mb-2">
+            <span class="material-icons">groups</span>
+          </div>
+          <p class="text-3xl font-bold">25+</p>
+          <p class="text-gray-500">Active Creators</p>
+        </div>
+  
+        <div class="bg-white p-6 rounded-xl shadow text-center">
+          <div class="text-purple-500 text-3xl mb-2">
+            <span class="material-icons">schedule</span>
+          </div>
+          <p class="text-3xl font-bold">72h</p>
+          <p class="text-gray-500">Avg Response</p>
+        </div>
+  
+      </div>
+    </div>
+  
+  
+    <!-- REQUEST FORM -->
+    <div class="max-w-3xl mx-auto mt-10 bg-white rounded-xl shadow p-8">
+  
+      <h2 class="text-xl font-semibold mb-6">
+        + Submit a New Request
+      </h2>
+  
+      <form [formGroup]="requestForm" (ngSubmit)="submitRequest()" class="space-y-6">
+  
+        <!-- TITLE -->
+        <div>
+          <label class="block text-sm font-medium mb-2">
+            What video would you like to see?
+          </label>
+  
+          <input
+            type="text"
+            formControlName="title"
+            placeholder="e.g., How to apply for postgraduate programs at UoN"
+            class="w-full border rounded-lg p-3 focus:outline-none focus:ring-2 focus:ring-blue-500"
+          />
+        </div>
+  
+  
+        <!-- DETAILS -->
+        <div>
+          <label class="block text-sm font-medium mb-2">
+            Provide more details
+          </label>
+  
+          <textarea
+            rows="4"
+            formControlName="details"
+            placeholder="Explain what specific information you need and why it would be helpful..."
+            class="w-full border rounded-lg p-3 focus:outline-none focus:ring-2 focus:ring-blue-500"
+          ></textarea>
+        </div>
+  
+  
+        <!-- TARGET UNIVERSITY -->
+        <div>
+          <label class="block text-sm font-medium mb-2">
+            Target University (optional)
+          </label>
+  
+          <select
+            formControlName="targetInstitution"
+            class="w-full border rounded-lg p-3 focus:outline-none focus:ring-2 focus:ring-blue-500"
+          >
+            <option value="">Select university (optional)</option>
+  
+            <option *ngFor="let inst of institutions" [value]="inst">
+              {{inst}}
+            </option>
+  
+          </select>
+        </div>
+  
+  
+        <!-- SUBMIT BUTTON -->
+        <button
+          type="submit"
+          [disabled]="loading"
+          class="w-full py-3 rounded-lg text-white font-semibold
+                 bg-gradient-to-r from-blue-600 to-purple-600
+                 hover:opacity-90 transition"
+        >
+          <span class="material-icons align-middle mr-2">send</span>
+          Submit Request
+        </button>
+  
+      </form>
+  
+    </div>
+  
+  
+    <!-- HOW IT WORKS -->
+    <div class="max-w-4xl mx-auto mt-16 bg-green-50 rounded-xl p-10">
+  
+      <h2 class="text-2xl font-bold mb-10">
+        How Video Requests Work
+      </h2>
+  
+      <div class="grid md:grid-cols-3 gap-8 text-center">
+  
+        <div>
+          <div class="w-12 h-12 rounded-full bg-blue-200 flex items-center justify-center mx-auto text-lg font-bold">
+            1
+          </div>
+  
+          <h3 class="mt-4 font-semibold">
+            Submit Request
+          </h3>
+  
+          <p class="text-gray-600 text-sm mt-2">
+            Describe the video you need and provide context
+          </p>
+        </div>
+  
+        <div>
+          <div class="w-12 h-12 rounded-full bg-green-200 flex items-center justify-center mx-auto text-lg font-bold">
+            2
+          </div>
+  
+          <h3 class="mt-4 font-semibold">
+            Community Votes
+          </h3>
+  
+          <p class="text-gray-600 text-sm mt-2">
+            Other students upvote requests they find useful
+          </p>
+        </div>
+  
+        <div>
+          <div class="w-12 h-12 rounded-full bg-purple-200 flex items-center justify-center mx-auto text-lg font-bold">
+            3
+          </div>
+  
+          <h3 class="mt-4 font-semibold">
+            Creators Respond
+          </h3>
+  
+          <p class="text-gray-600 text-sm mt-2">
+            Student creators make videos for popular requests
+          </p>
+        </div>
+  
+      </div>
+  
+    </div>
+  
+  </div>

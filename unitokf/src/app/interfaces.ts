@@ -126,6 +126,14 @@ export interface UpdateVideoDto {
   videoUrl?: string;
 }
 
+export interface Author {
+  id: string;
+  name: string;
+  profileImage?: string | null;
+  institution?: {name: string} | null;
+  academicLevel?: string;
+}
+
 export interface Video {
   id: string;
   title: string;
@@ -136,11 +144,13 @@ export interface Video {
   commentsCount: number;
   createdAt: string;
   updatedAt: string;
+  author: Author;
   user: {
     id: string;
     name: string;
     profileImage?: string;
   };
+  comments?: Comment[];
 }
 
 export interface VideoLikeResponse {
@@ -181,4 +191,39 @@ export interface CreateVideoCommentRequest {
 
 export interface UpdateVideoCommentRequest {
   content: string;
+}
+
+export interface GlobalSearchResult {
+  profiles: Profile[];
+  videos: Video[];
+}
+
+// UniTok Request interfaces
+
+export interface CreateRequestDto {
+  title: string;
+  details: string;
+  targetInstitution?: string;
+}
+
+export interface UpdateRequestDto {
+  title?: string;
+  details?: string;
+  targetInstitution?: string;
+}
+
+export interface RequestUser {
+  id: string;
+  name: string;
+  avatarUrl?: string | null;
+  institution?: string | null;
+}
+
+export interface UniTokRequest {
+  id: string;
+  title: string;
+  details: string;
+  targetInstitution?: string | null;
+  createdAt: string;
+  requester: RequestUser;
 }

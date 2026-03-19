@@ -98,6 +98,5 @@ export class ProfileService {
       headers: this.getAuthHeaders()
     })
   }
-  
 
 }

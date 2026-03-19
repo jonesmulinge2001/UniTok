@@ -13,14 +13,14 @@ export class SidebarComponent implements OnInit {
   showSidebar = true;
 
   navItems = [
-    { label: 'Feed', link: '/home', icon: 'dynamic_feed' },
+    { label: 'Home', link: '/home', icon: 'home' },
     { label: 'Network', link: '/network', icon: 'diversity_3' },
-    { label: 'Create', link: '/create', icon: 'add_circle' },
-    // { label: 'Resources', link: '/resources', icon: 'work' },
-    { label: 'UniTok', link: '/videos', icon: 'video_library' },
+    { label: 'Create', link: '/create-video', icon: 'add_circle' },
+    { label: 'Request', link: '/request', icon: 'work' },
+    // { label: 'UniTok', link: '/videos', icon: 'video_library' },
     // { label: 'Opportunities', link: '/opportunities', icon: 'business_center' },
     // { label: 'Fund Me', link: '/fund-me', icon: 'volunteer_activism' },
-    { label: 'Groups', link: '/groups', icon: 'handshake' },
+    // { label: 'Groups', link: '/groups', icon: 'handshake' },
   ];
 
   getIconGradient(label: string): string {
