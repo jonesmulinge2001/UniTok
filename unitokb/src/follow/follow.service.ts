@@ -1,0 +1,83 @@
+/* eslint-disable prettier/prettier */
+import { BadRequestException, Injectable } from '@nestjs/common';
+import { PrismaClient } from 'generated/prisma/client';
+
+@Injectable()
+export class FollowService {
+  constructor() {}
+
+  private prisma = new PrismaClient();
+  async followUser(followerId: string, followingId: string) {
+    if (followerId === followingId) {
+      throw new BadRequestException('You cannot follow yourself');
+    }
+
+    const alreadyFollowing = await this.prisma.follow.findFirst({
+      where: {
+        followerId,
+        followingId,
+      },
+    });
+    if (alreadyFollowing) {
+      throw new BadRequestException('You are already following this user');
+    }
+
+    return this.prisma.follow.create({
+      data: {
+        followerId,
+        followingId,
+      },
+    });
+  }
+
+  async unfollowUser(followerId: string, followingId: string) {
+    return this.prisma.follow.deleteMany({
+      where: {
+        followerId,
+        followingId,
+      },
+    });
+  }
+
+  async getFollowers(userId: string) {
+    return this.prisma.follow.findMany({
+      where: { followerId: userId },
+      include: {
+        follower: {
+          include: {
+            profile: {
+              include: {
+                institution: true,
+              },
+            },
+          },
+        },
+      },
+    });
+  }
+
+  async getFollowing(userId: string) {
+    return this.prisma.follow.findMany({
+      where: { followerId: userId },
+      include: {
+        following: {
+          include: {
+            profile: {
+              include: {
+                institution: true,
+              },
+            },
+          },
+        },
+      },
+    });
+  }
+
+  async getFollowersCount(userId: string): Promise<number> {
+    return this.prisma.follow.count({ where: { followingId: userId } });
+  }
+
+  async getFollowingCount(userId: string): Promise<number> {
+    return this.prisma.follow.count({ where: { followerId: userId } });
+  }
+}

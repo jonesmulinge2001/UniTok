@@ -24,7 +24,7 @@ POST http://localhost:3000/auth/request-verification-code
 Content-Type: application/json
 
 {
-  "email": "jonathanmwandi@gmail.com"
+  "email": "jonathanmulingemwandi@gmail.com"
 }
 
 ### login 

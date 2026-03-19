@@ -39,7 +39,7 @@ import { PermissionGuard } from 'src/guards/permissions.guard';
   }
   
   @Controller('profiles')
-  @UseGuards(AuthGuard('jwt'), PermissionGuard)
+  @UseGuards(AuthGuard('jwt'))
   export class ProfileController {
     constructor(private readonly profileService: ProfileService) {}
   

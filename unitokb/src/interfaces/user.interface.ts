@@ -1,7 +1,8 @@
 /* eslint-disable prettier/prettier */
 /* eslint-disable @typescript-eslint/no-empty-object-type */
 /* eslint-disable prettier/prettier */
-import { UserRole } from "generated/prisma";
+import { UserRole } from 'generated/prisma/client'; 
+
 /* eslint-disable prettier/prettier */
 export interface User {
   id: string;

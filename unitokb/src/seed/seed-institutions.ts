@@ -1,7 +1,7 @@
 /* eslint-disable prettier/prettier */
 /* eslint-disable @typescript-eslint/no-misused-promises */
 
-import { PrismaClient } from "../../generated/prisma";
+import { PrismaClient } from "generated/prisma/client";
 
 
 

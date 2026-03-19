@@ -1,7 +1,8 @@
 /* eslint-disable prettier/prettier */
 import { Injectable } from '@nestjs/common';
 import { Permission } from './permission.enum';
-import { UserRole } from '@prisma/client';
+import { UserRole } from 'generated/prisma/client';
+
 
 @Injectable()
 export class PermissionsService {

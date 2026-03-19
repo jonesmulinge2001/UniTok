@@ -1,9 +1,9 @@
 /* eslint-disable prettier/prettier */
-/* eslint-disable @typescript-eslint/require-await */
-/* eslint-disable @typescript-eslint/no-unsafe-member-access */
-/* eslint-disable @typescript-eslint/no-unsafe-return */
-/* eslint-disable @typescript-eslint/no-unsafe-call */
-/* eslint-disable @typescript-eslint/no-unsafe-assignment */
+ 
+ 
+ 
+ 
+ 
 /* eslint-disable prettier/prettier */
 
 /* eslint-disable prettier/prettier */
@@ -20,7 +20,8 @@ import {
 import { CreateProfileDto } from 'src/dto/create-profile';
 import { UpdateProfileDto } from 'src/dto/update-profile';
 import { Express } from 'express';
-import { PrismaClient, Prisma } from '@prisma/client';
+import { PrismaClient } from 'generated/prisma/client';
+
 
 @Injectable()
 export class ProfileService {
@@ -98,34 +99,40 @@ export class ProfileService {
   }
 
   // Update your profile
-  async updateProfile(userId: string, dto: UpdateProfileDto) {
-    const profile = await this.prisma.profile.findUnique({ where: { userId } });
-    if (!profile) {
-      throw new NotFoundException('Profile not found');
-    }
-
-    if (dto.institutionId) {
-      const institution = await this.prisma.institution.findUnique({
-        where: { id: dto.institutionId },
-      });
-      if (!institution) {
-        throw new NotFoundException('Institution not found');
-      }
-    }
-
-    const updateData: Prisma.ProfileUpdateInput = {
-      name: dto.name,
-      bio: dto.bio,
-      academicLevel: dto.academicLevel,
-      skills: dto.skills,
-      ...(dto.institutionId && { institutionId: dto.institutionId }),
-    };
-
-    return this.prisma.profile.update({
-      where: { userId },
-      data: updateData,
-    });
+// Update your profile
+async updateProfile(userId: string, dto: UpdateProfileDto) {
+  const profile = await this.prisma.profile.findUnique({ where: { userId } });
+  if (!profile) {
+    throw new NotFoundException('Profile not found');
   }
+
+  if (dto.institutionId) {
+    const institution = await this.prisma.institution.findUnique({
+      where: { id: dto.institutionId },
+    });
+    if (!institution) {
+      throw new NotFoundException('Institution not found');
+    }
+  }
+
+  // Remove the explicit type annotation and let TypeScript infer
+  const updateData = {
+    name: dto.name,
+    bio: dto.bio,
+    academicLevel: dto.academicLevel,
+    skills: dto.skills,
+    ...(dto.institutionId && { 
+      institution: {
+        connect: { id: dto.institutionId }
+      }
+    }),
+  };
+
+  return this.prisma.profile.update({
+    where: { userId },
+    data: updateData,
+  });
+}
 
   // upload a profile image
   async uploadProfileImage(userId: string, file: Express.Multer.File) {

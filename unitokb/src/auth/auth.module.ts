@@ -15,7 +15,7 @@ import { JwtStrategy } from 'src/strategies/jwt.strategy';
     MailerModule,
     ConfigModule.forRoot({ isGlobal: true}),
     JwtModule.register({
-      secret: process.env.JWT_SCRET || 'defaultSecret',
+      secret: process.env.JWT_SECRET || 'defaultSecret',
       signOptions: { expiresIn: '1d'},
     }),
   ],

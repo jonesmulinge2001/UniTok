@@ -48,6 +48,7 @@ model User {
   following      Follow[]       @relation("UserFollowing")
   likes          UniTokVideoLike[]
   comments       UniTokComment[]
+  uniTokRequests UniTokRequest[]
   profile        Profile?
 
   // Admin Relations
@@ -119,6 +120,27 @@ model UniTokVideo {
   updatedAt   DateTime @updatedAt
 
   @@index([creatorId])
+  @@index([createdAt])
+}
+
+model UniTokRequest {
+  id          String   @id @default(uuid())
+
+  // Content
+  title       String   @db.VarChar(150)
+  details     String
+
+  // Optional institution target
+  targetInstitution String?
+
+  // Relations
+  requester   User     @relation(fields: [requesterId], references: [id], onDelete: Cascade)
+  requesterId String
+
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  @@index([requesterId])
   @@index([createdAt])
 }
 

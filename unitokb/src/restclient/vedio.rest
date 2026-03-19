@@ -1,4 +1,4 @@
-@ACCESS_TOKEN= eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJlNGJmYWNhOS03MjkyLTRjNGItOTFhZS00OTBhNGNlMTNiYWYiLCJlbWFpbCI6ImpvbmF0aGFubXdhbmRpNkBnbWFpbC5jb20iLCJyb2xlIjoiU1RVREVOVCIsImlhdCI6MTc3MDc5MDYyNywiZXhwIjoxNzcwODc3MDI3fQ.KVbC7HcxlM8FKKNIytn9E_gLa2AeNjsTg6_Ln-93kb0
+@ACCESS_TOKEN= eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIyYjg0OTlmMS0xODA3LTRhZWItOGEzOS0yNmI1Mzg3MDU5Y2IiLCJlbWFpbCI6ImpvbmF0aGFubXVsaW5nZW13YW5kaUBnbWFpbC5jb20iLCJyb2xlIjoiU1RVREVOVCIsImlhdCI6MTc3MjMxNzU3MCwiZXhwIjoxNzcyNDAzOTcwfQ.EIFP1DpsF_nQCvW43Nd5Hyt2Xv4l6-yWnEzSjbnVB5g
 
 @VIDEO_ID = 3ec33c59-dfab-4898-ae9e-99dab2cb6a5e
 @commentId = 18c80d59-a343-4828-8d15-1c5995e04d9e
@@ -18,6 +18,14 @@ Authorization: Bearer {{ACCESS_TOKEN}}
 
 ### Get all videos
 GET http://localhost:3000/videos
+Authorization: Bearer {{ACCESS_TOKEN}}
+
+### Get all categories
+GET http://localhost:3000/videos/categories/Campus Life
+Authorization: Bearer {{ACCESS_TOKEN}}
+
+### Get Videos By Category
+GET http://localhost:3000/videos/category/Campus%20Life
 Authorization: Bearer {{ACCESS_TOKEN}}
 
 ### Get a single video by ID

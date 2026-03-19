@@ -11,7 +11,7 @@ import { LoginUserDto } from 'src/dto/login.user.dto';
 import { RegisterUserDto } from 'src/dto/register.user.dto';
 import * as bcrypt from 'bcryptjs';
 import { MailerService } from 'src/mailer/mailer.service';
-import { PrismaClient } from '@prisma/client';
+import { PrismaClient } from 'generated/prisma/client';
 
 @Injectable()
 export class AuthService {

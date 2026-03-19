@@ -17,7 +17,7 @@ import {
   UniTokCloudinaryService,
   UniTokUploadType,
 } from 'src/shared/cloudinary/cloudinary/cloudinary.service';
-import { PrismaClient } from '@prisma/client';
+import { PrismaClient } from '../../generated/prisma';
 
 @Injectable()
 export class VideosService {
@@ -120,5 +120,46 @@ export class VideosService {
     }
 
     return this.prisma.uniTokVideo.delete({ where: { id } });
+  }
+
+
+  // get video categories
+  async getAllCategories(): Promise<string[]> {
+    const videos = await this.prisma.uniTokVideo.findMany({
+      select: {
+        tags: true,
+      },
+    });
+  
+    // flatten tags array
+    const allTags = videos.flatMap(video => video.tags);
+  
+    // remove duplicates
+    const uniqueTags = [...new Set(allTags)];
+  
+    return uniqueTags.sort();
+  }
+
+
+  async getVideosByCategory(category: string) {
+    return this.prisma.uniTokVideo.findMany({
+      where: {
+        tags: {
+          has: category,
+        },
+      },
+      include: {
+        creator: {
+          select: {
+            id: true,
+            name: true,
+            avatarUrl: true,
+          },
+        },
+      },
+      orderBy: {
+        createdAt: 'desc',
+      },
+    });
   }
 }

@@ -13,7 +13,8 @@ import {
   MaxLength,
   MinLength,
 } from 'class-validator';
-import { UserRole } from '@prisma/client';
+import { UserRole } from 'generated/prisma/client';
+;
 
 
 export class RegisterUserDto {
@@ -41,8 +42,7 @@ export class RegisterUserDto {
   phone: string;
 
   @IsNotEmpty({ message: 'Role is required' })
-  @IsEnum(UserRole, {
-    message: 'Invalid role. Please choose from: ${#EnumValues}',
-  })
+  @IsEnum(UserRole)
   role: UserRole;
+  
 }

@@ -1,0 +1,40 @@
+@ACCESS_TOKEN= eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIyYjg0OTlmMS0xODA3LTRhZWItOGEzOS0yNmI1Mzg3MDU5Y2IiLCJlbWFpbCI6ImpvbmF0aGFubXVsaW5nZW13YW5kaUBnbWFpbC5jb20iLCJyb2xlIjoiU1RVREVOVCIsImlhdCI6MTc3Mjc0MTQ0NCwiZXhwIjoxNzcyODI3ODQ0fQ.Rrwx91dijFaCSH5gSh1syOyn1FDx5EXgUQ0kVWrSk4E
+
+@baseUrl = http://localhost:3000
+
+@requestId = 7915e1bc-4b64-45db-9aa1-b506ecd5f4fb
+
+### Create request
+POST {{baseUrl}}/unitok-requests
+Content-Type: application/json
+Authorization: Bearer {{ACCESS_TOKEN}}
+
+{
+  "title": "Explain binary search algorithm",
+  "details": "I want a simple explanation with visualization",
+  "targetInstitution": "Chuka University"
+}
+
+
+### Get all requests
+GET {{baseUrl}}/unitok-requests
+Authorization: Bearer {{ACCESS_TOKEN}}
+
+
+### Get single request
+GET {{baseUrl}}/unitok-requests/{{requestId}}
+Authorization: Bearer {{ACCESS_TOKEN}}
+
+
+### Update request
+PATCH {{baseUrl}}/unitok-requests/{{requestId}}
+Authorization: Bearer {{ACCESS_TOKEN}}
+Content-Type: application/json
+
+{
+  "title":"Explain binary search algorithm in details"
+}
+
+
+### Delete request
+DELETE @{{baseUrl}}/unitok-requests/:id

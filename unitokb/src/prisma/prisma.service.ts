@@ -1,5 +1,5 @@
 /* eslint-disable prettier/prettier */
-import { PrismaClient } from 'generated/prisma/client';
+import { PrismaClient } from '../../generated/prisma';
 
 let prisma: PrismaClient;
 export const getPrismaClient = (): PrismaClient => {

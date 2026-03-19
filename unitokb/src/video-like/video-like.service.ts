@@ -4,8 +4,7 @@ import {
   NotFoundException,
   ConflictException,
 } from '@nestjs/common';
-import { PrismaClient } from '@prisma/client';
-
+import { PrismaClient } from '../../generated/prisma';
 @Injectable()
 export class VideoLikeService {
   constructor() {}

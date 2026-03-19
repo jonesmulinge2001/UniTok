@@ -1,6 +1,6 @@
 /* eslint-disable prettier/prettier */
 
-import { UserRole } from "@prisma/client";
+import { UserRole } from 'generated/prisma/client';
 
 
 export interface JwtPayload {
