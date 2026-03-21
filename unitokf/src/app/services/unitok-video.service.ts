@@ -1,8 +1,8 @@
 import { Injectable } from '@angular/core';
 import { environment } from '../../environments/environment';
-import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { HttpClient, HttpEvent, HttpHeaders, HttpEventType } from '@angular/common/http';
 import { CreateVideoDto, UpdateVideoDto, Video } from '../interfaces';
-import { Observable } from 'rxjs';
+import { Observable, map } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
@@ -26,10 +26,17 @@ export class UnitokVideoService {
     });
   }
 
-  // create video via FormData(for file upload)
-  uploadVideo(formdata: FormData): Observable<Video> {
-    //Do NOT set Content-Type here; HttpClient will set multipart/form-data automatically
-    return this.http.post<Video>(this.baseurl, formdata);
+  // Upload video with progress tracking
+  uploadVideoWithProgress(formData: FormData): Observable<HttpEvent<Video>> {
+    return this.http.post<Video>(`${this.baseurl}`, formData, {
+      reportProgress: true,
+      observe: 'events'
+    });
+  }
+
+  // create video via FormData (for file upload) - without progress
+  uploadVideo(formData: FormData): Observable<Video> {
+    return this.http.post<Video>(this.baseurl, formData);
   }
 
   // get all videos
@@ -49,7 +56,7 @@ export class UnitokVideoService {
   // update video
   updateVideo(videoId: string, payload: UpdateVideoDto): Observable<Video> {
     return this.http.patch<Video>(`${this.baseurl}/${videoId}`, payload, {
-      headers:  this.getAuthHeaders(),
+      headers: this.getAuthHeaders(),
     });
   }
 
@@ -61,21 +68,19 @@ export class UnitokVideoService {
   }
 
   // get all categories
-getCategories(): Observable<string[]> {
-  return this.http.get<string[]>(`${this.baseurl}/categories`, {
-    headers: this.getAuthHeaders(),
-  });
-}
-
-
-// get videos by category
-getVideosByCategory(category: string): Observable<Video[]> {
-  return this.http.get<Video[]>(
-    `${this.baseurl}/category/${encodeURIComponent(category)}`,
-    {
+  getCategories(): Observable<string[]> {
+    return this.http.get<string[]>(`${this.baseurl}/categories`, {
       headers: this.getAuthHeaders(),
-    }
-  );
-}
+    });
+  }
 
+  // get videos by category
+  getVideosByCategory(category: string): Observable<Video[]> {
+    return this.http.get<Video[]>(
+      `${this.baseurl}/category/${encodeURIComponent(category)}`,
+      {
+        headers: this.getAuthHeaders(),
+      }
+    );
+  }
 }

@@ -1,4 +1,10 @@
-import { Component, Inject, OnDestroy, OnInit, PLATFORM_ID } from '@angular/core';
+import {
+  Component,
+  Inject,
+  OnDestroy,
+  OnInit,
+  PLATFORM_ID,
+} from '@angular/core';
 import { CommonModule, isPlatformBrowser } from '@angular/common';
 import { Router, RouterModule } from '@angular/router';
 import { AuthService } from '../../services/auth.service';
@@ -14,10 +20,10 @@ import { FormsModule } from '@angular/forms';
   standalone: true,
   imports: [CommonModule, RouterModule, FormsModule],
   templateUrl: './navbar.component.html',
-  styleUrl: './navbar.component.css'
+  styleUrl: './navbar.component.css',
 })
-export class NavbarComponent implements OnInit, OnDestroy{
-  isMenuOpen: boolean = false;
+export class NavbarComponent implements OnInit, OnDestroy {
+  menuOpen: boolean = false; // Fixed: Use consistent variable name
 
   searchResults: GlobalSearchResult = { profiles: [], videos: [] };
 
@@ -29,15 +35,11 @@ export class NavbarComponent implements OnInit, OnDestroy{
   searchQuery: string = '';
   isLoggedIn: boolean = false;
 
-
   userName = '';
   userImage = '';
-  menuOpen = false;
   unreadCount = 0;
   window = window;
   loading: boolean = false;
-
-
 
   constructor(
     private router: Router,
@@ -45,10 +47,9 @@ export class NavbarComponent implements OnInit, OnDestroy{
     private profileService: ProfileService,
     private toastr: ToastrService,
     private searchService: GlobalSearchService,
-    // private notificationService: NotificationService,
-    // private conversationsService: ConversationsService,
     @Inject(PLATFORM_ID) private platformId: Object
   ) {}
+  
   ngOnInit(): void {
     if (isPlatformBrowser(this.platformId)) {
       this.window = window;
@@ -60,7 +61,7 @@ export class NavbarComponent implements OnInit, OnDestroy{
     this.searchSubject
       .pipe(
         debounceTime(300),
-        switchMap(query => {
+        switchMap((query) => {
           this.loading = true;
           return this.searchService.search(query);
         })
@@ -77,35 +78,27 @@ export class NavbarComponent implements OnInit, OnDestroy{
         error: () => {
           this.loading = false;
           this.searchResults = { profiles: [], videos: [] };
-        }
+        },
       });
 
     if (this.isLoggedIn) {
       this.profileService.getMyProfile().subscribe({
         next: (profile: Profile) => {
           this.userName = profile.name;
-          this.userImage = profile.profileImage || 'https://via.placeholder.com/40';
+          this.userImage =
+            profile.profileImage || 'https://via.placeholder.com/40';
         },
         error: () => console.error(),
       });
-
-      // Subscribe to notification unread count
-      // this.notificationSub = this.notificationService.unreadCount$.subscribe(
-      //   count => {
-      //     this.unreadCount = count;
-      //   }
-      // );
     }
   }
 
   ngOnDestroy(): void {
-    // this.socketSub?.unsubscribe();
-    // this.notificationSub?.unsubscribe();
-    // document.removeEventListener('click', this.closeMenuOnOutsideClick.bind(this));
+    document.removeEventListener('click', this.closeMenuOnOutsideClick.bind(this));
   }
 
   toggleMenu() {
-    this.isMenuOpen = !this.isMenuOpen;
+    this.menuOpen = !this.menuOpen;
   }
 
   toggleSearchPanel(): void {
@@ -120,16 +113,15 @@ export class NavbarComponent implements OnInit, OnDestroy{
     this.logoutModalOpen = true;
   }
 
-
   closeMenuOnOutsideClick(event: MouseEvent): void {
     const target = event.target as HTMLElement;
-    
+
     // Close search panel if clicking outside
     const isInsideSearch = target.closest('.search-container');
     if (!isInsideSearch) {
       this.searchPanelOpen = false;
     }
-    
+
     // Close menu if clicking outside
     const isInsideMenu = target.closest('.profile-dropdown-container');
     if (!isInsideMenu && this.menuOpen) {
@@ -137,48 +129,49 @@ export class NavbarComponent implements OnInit, OnDestroy{
     }
   }
 
-    // Search methods
-    onSearchQueryChange(value: string): void {
-      this.searchQuery = value;
-      if (value.trim()) {
-        this.searchSubject.next(value);
-      } else {
-        this.searchResults = { profiles: [], videos: [] };
-        this.searchPanelOpen = false;
-      }
+  // Search methods
+  onSearchQueryChange(value: string): void {
+    this.searchQuery = value;
+    if (value.trim()) {
+      this.searchSubject.next(value);
+    } else {
+      this.searchResults = { profiles: [], videos: [] };
+      this.searchPanelOpen = false;
     }
+  }
 
-  
   closeSearchPanel(): void {
     this.searchPanelOpen = false;
   }
 
   viewAllResults(): void {
     this.closeSearchPanel();
-    this.router.navigate(['/search'], { 
-      queryParams: { q: this.searchQuery } 
+    this.router.navigate(['/search'], {
+      queryParams: { q: this.searchQuery },
     });
   }
-
 
   onSearchItemClick(): void {
     this.closeSearchPanel();
     this.searchQuery = '';
   }
 
-
   viewProfile(): void {
     this.menuOpen = false;
     this.router.navigate(['/my-profile']);
   }
 
-
   navigateToProfile(profileId: string) {
     this.router.navigate(['/profile', profileId]);
   }
 
-  navigateToVideo(postId: string) {
-    this.router.navigate(['/videos', postId]);
+  navigateToVideo(videoId: string) {
+    this.router.navigate(['/videos', videoId]);
+  }
+
+  navigateToRequestManagement(): void {
+    this.menuOpen = false;
+    this.router.navigate(['/request-management']);
   }
 
   logOut(): void {

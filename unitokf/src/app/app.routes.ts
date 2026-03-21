@@ -14,6 +14,7 @@ import { NetworkComponent } from './components/network/network.component';
 import { SearchResultsComponent } from './components/search-results/search-results.component';
 import { VideoDetailComponent } from './components/video-detail/video-detail.component';
 import { RequestComponent } from './components/request/request.component';
+import { RequestManagementComponent } from './components/request-management/request-management.component';
 
 export const routes: Routes = [
       // ==== Public routes (no layout) ====
@@ -40,6 +41,7 @@ export const routes: Routes = [
       { path: 'search', component: SearchResultsComponent },
       { path: 'request', component: RequestComponent },
       { path: 'videos/:id', component: VideoDetailComponent },
+      { path: 'request-management', component: RequestManagementComponent },
 
     ]
   },

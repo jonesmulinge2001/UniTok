@@ -1,176 +1,270 @@
-<div class="min-h-screen bg-gray-50">
+<div class="min-h-screen bg-gradient-to-br from-gray-50 to-white">
 
-    <!-- HEADER -->
-    <div class="text-center py-12 bg-gray-100">
-      <h1 class="text-4xl font-bold text-gray-900">
-        Request a Video
-      </h1>
-  
-      <p class="text-gray-600 mt-4 max-w-2xl mx-auto">
-        Can't find the information you need? Request a video from our community
-        of student creators who are ready to help!
-      </p>
-  
-      <!-- STATS -->
-      <div class="grid grid-cols-1 md:grid-cols-3 gap-6 max-w-4xl mx-auto mt-10">
-  
-        <div class="bg-white p-6 rounded-xl shadow text-center">
-          <div class="text-blue-500 text-3xl mb-2">
-            <span class="material-icons">chat</span>
-          </div>
-          <p class="text-3xl font-bold">150+</p>
-          <p class="text-gray-500">Requests</p>
+  <!-- HERO SECTION - LinkedIn Style -->
+  <div class="relative bg-gradient-to-br from-blue-600 via-purple-600 to-pink-500 overflow-hidden">
+    <!-- Animated Background Pattern -->
+    <div class="absolute inset-0 opacity-10">
+      <div class="absolute top-0 left-0 w-96 h-96 bg-white rounded-full filter blur-3xl animate-pulse"></div>
+      <div class="absolute bottom-0 right-0 w-96 h-96 bg-white rounded-full filter blur-3xl animate-pulse delay-1000"></div>
+    </div>
+    
+    <div class="relative max-w-7xl mx-auto px-4 py-16 text-center">
+      <div class="animate-fade-in-up">
+        <div class="inline-flex items-center gap-2 bg-white/20 backdrop-blur-sm rounded-full px-4 py-1.5 mb-6">
+          <span class="material-icons text-yellow-300 text-sm">play_circle</span>
+          <span class="text-white text-sm font-medium">UniTok Video Requests</span>
         </div>
-  
-        <div class="bg-white p-6 rounded-xl shadow text-center">
-          <div class="text-green-500 text-3xl mb-2">
-            <span class="material-icons">groups</span>
-          </div>
-          <p class="text-3xl font-bold">25+</p>
-          <p class="text-gray-500">Active Creators</p>
-        </div>
-  
-        <div class="bg-white p-6 rounded-xl shadow text-center">
-          <div class="text-purple-500 text-3xl mb-2">
-            <span class="material-icons">schedule</span>
-          </div>
-          <p class="text-3xl font-bold">72h</p>
-          <p class="text-gray-500">Avg Response</p>
-        </div>
-  
+        
+        <h1 class="text-4xl md:text-5xl font-bold text-white mb-4">
+          Request a Video
+        </h1>
+        
+        <p class="text-white/90 text-lg md:text-xl max-w-2xl mx-auto leading-relaxed">
+          Can't find the information you need? Request a video from our community
+          of student creators who are ready to help!
+        </p>
       </div>
     </div>
-  
-  
-    <!-- REQUEST FORM -->
-    <div class="max-w-3xl mx-auto mt-10 bg-white rounded-xl shadow p-8">
-  
-      <h2 class="text-xl font-semibold mb-6">
-        + Submit a New Request
-      </h2>
-  
-      <form [formGroup]="requestForm" (ngSubmit)="submitRequest()" class="space-y-6">
-  
-        <!-- TITLE -->
-        <div>
-          <label class="block text-sm font-medium mb-2">
-            What video would you like to see?
-          </label>
-  
-          <input
-            type="text"
-            formControlName="title"
-            placeholder="e.g., How to apply for postgraduate programs at UoN"
-            class="w-full border rounded-lg p-3 focus:outline-none focus:ring-2 focus:ring-blue-500"
-          />
+  </div>
+
+  <!-- STATS SECTION - Enhanced Cards -->
+  <div class="max-w-6xl mx-auto px-4 -mt-10">
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+      
+      <div class="bg-white rounded-2xl shadow-lg p-6 text-center transform transition-all duration-300 hover:shadow-xl hover:-translate-y-1 group">
+        <div class="w-16 h-16 rounded-full bg-blue-50 flex items-center justify-center mx-auto mb-4 group-hover:bg-blue-100 transition-all">
+          <span class="material-icons text-blue-500 text-3xl">chat</span>
         </div>
-  
-  
-        <!-- DETAILS -->
-        <div>
-          <label class="block text-sm font-medium mb-2">
-            Provide more details
-          </label>
-  
-          <textarea
-            rows="4"
-            formControlName="details"
-            placeholder="Explain what specific information you need and why it would be helpful..."
-            class="w-full border rounded-lg p-3 focus:outline-none focus:ring-2 focus:ring-blue-500"
-          ></textarea>
+        <p class="text-3xl font-bold text-gray-900">150+</p>
+        <p class="text-gray-500 text-sm">Requests Submitted</p>
+        <div class="mt-3 h-1 w-12 bg-blue-500 rounded-full mx-auto"></div>
+      </div>
+
+      <div class="bg-white rounded-2xl shadow-lg p-6 text-center transform transition-all duration-300 hover:shadow-xl hover:-translate-y-1 group">
+        <div class="w-16 h-16 rounded-full bg-green-50 flex items-center justify-center mx-auto mb-4 group-hover:bg-green-100 transition-all">
+          <span class="material-icons text-green-500 text-3xl">groups</span>
         </div>
-  
-  
-        <!-- TARGET UNIVERSITY -->
-        <div>
-          <label class="block text-sm font-medium mb-2">
-            Target University (optional)
-          </label>
-  
-          <select
-            formControlName="targetInstitution"
-            class="w-full border rounded-lg p-3 focus:outline-none focus:ring-2 focus:ring-blue-500"
-          >
-            <option value="">Select university (optional)</option>
-  
-            <option *ngFor="let inst of institutions" [value]="inst">
-              {{inst}}
-            </option>
-  
-          </select>
+        <p class="text-3xl font-bold text-gray-900">25+</p>
+        <p class="text-gray-500 text-sm">Active Creators</p>
+        <div class="mt-3 h-1 w-12 bg-green-500 rounded-full mx-auto"></div>
+      </div>
+
+      <div class="bg-white rounded-2xl shadow-lg p-6 text-center transform transition-all duration-300 hover:shadow-xl hover:-translate-y-1 group">
+        <div class="w-16 h-16 rounded-full bg-purple-50 flex items-center justify-center mx-auto mb-4 group-hover:bg-purple-100 transition-all">
+          <span class="material-icons text-purple-500 text-3xl">schedule</span>
         </div>
-  
-  
+        <p class="text-3xl font-bold text-gray-900">72h</p>
+        <p class="text-gray-500 text-sm">Avg Response Time</p>
+        <div class="mt-3 h-1 w-12 bg-purple-500 rounded-full mx-auto"></div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- REQUEST FORM SECTION - Enhanced -->
+  <div class="max-w-3xl mx-auto px-4 mt-12">
+    <div class="bg-white rounded-2xl shadow-xl overflow-hidden animate-fade-in">
+      
+      <!-- Form Header -->
+      <div class="bg-gradient-to-r from-gray-50 to-white px-6 py-5 border-b border-gray-200">
+        <div class="flex items-center gap-3">
+          <div class="w-10 h-10 rounded-full bg-gradient-to-r from-blue-500 to-purple-600 flex items-center justify-center">
+            <span class="material-icons text-white text-lg">add_circle</span>
+          </div>
+          <div>
+            <h2 class="text-lg font-semibold text-gray-900">Submit a New Request</h2>
+            <p class="text-sm text-gray-500">Tell us what video you'd like to see</p>
+          </div>
+        </div>
+      </div>
+
+      <form [formGroup]="requestForm" (ngSubmit)="submitRequest()" class="p-6 space-y-6">
+        
+        <!-- TITLE FIELD -->
+        <div>
+          <label class="block text-sm font-medium text-gray-700 mb-2">
+            What video would you like to see? <span class="text-red-500">*</span>
+          </label>
+          <div class="relative">
+            <span class="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400">
+              <span class="material-icons text-lg">title</span>
+            </span>
+            <input
+              type="text"
+              formControlName="title"
+              placeholder="e.g., How to apply for postgraduate programs at UoN"
+              class="w-full pl-10 pr-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-200"
+              [class.border-red-300]="requestForm.get('title')?.invalid && requestForm.get('title')?.touched"
+            />
+          </div>
+          <div *ngIf="requestForm.get('title')?.invalid && requestForm.get('title')?.touched" class="text-red-500 text-xs mt-1">
+            <span *ngIf="requestForm.get('title')?.errors?.['required']">Title is required</span>
+            <span *ngIf="requestForm.get('title')?.errors?.['minlength']">Minimum 5 characters required</span>
+          </div>
+        </div>
+
+        <!-- DETAILS FIELD -->
+        <div>
+          <label class="block text-sm font-medium text-gray-700 mb-2">
+            Provide more details <span class="text-red-500">*</span>
+          </label>
+          <div class="relative">
+            <span class="absolute left-3 top-3 text-gray-400">
+              <span class="material-icons text-lg">description</span>
+            </span>
+            <textarea
+              rows="4"
+              formControlName="details"
+              placeholder="Explain what specific information you need and why it would be helpful..."
+              class="w-full pl-10 pr-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-200 resize-none"
+              [class.border-red-300]="requestForm.get('details')?.invalid && requestForm.get('details')?.touched"
+            ></textarea>
+          </div>
+          <div class="flex justify-between items-center mt-1">
+            <div *ngIf="requestForm.get('details')?.invalid && requestForm.get('details')?.touched" class="text-red-500 text-xs">
+              <span *ngIf="requestForm.get('details')?.errors?.['required']">Details are required</span>
+              <span *ngIf="requestForm.get('details')?.errors?.['minlength']">Minimum 10 characters required</span>
+            </div>
+            <div class="text-xs text-gray-400 ml-auto">
+              {{ requestForm.get('details')?.value?.length || 0 }}/500
+            </div>
+          </div>
+        </div>
+
+        <!-- TARGET UNIVERSITY FIELD -->
+        <div>
+          <label class="block text-sm font-medium text-gray-700 mb-2">
+            Target University <span class="text-gray-400 text-xs">(optional)</span>
+          </label>
+          <div class="relative">
+            <span class="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400">
+              <span class="material-icons text-lg">school</span>
+            </span>
+            <select
+              formControlName="targetInstitution"
+              class="w-full pl-10 pr-10 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent appearance-none bg-white transition-all duration-200"
+            >
+              <option value="">Select university (optional)</option>
+              <option *ngFor="let inst of institutions" [value]="inst">
+                {{inst}}
+              </option>
+            </select>
+            <span class="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-400 pointer-events-none">
+              <span class="material-icons text-lg">expand_more</span>
+            </span>
+          </div>
+        </div>
+
         <!-- SUBMIT BUTTON -->
         <button
           type="submit"
-          [disabled]="loading"
-          class="w-full py-3 rounded-lg text-white font-semibold
+          [disabled]="requestForm.invalid || loading"
+          class="w-full py-3.5 rounded-lg text-white font-semibold
                  bg-gradient-to-r from-blue-600 to-purple-600
-                 hover:opacity-90 transition"
+                 hover:shadow-lg transform hover:scale-[1.02] transition-all duration-200
+                 disabled:opacity-50 disabled:cursor-not-allowed disabled:transform-none
+                 flex items-center justify-center gap-2"
         >
-          <span class="material-icons align-middle mr-2">send</span>
-          Submit Request
+          <span *ngIf="!loading" class="material-icons text-sm">send</span>
+          <span *ngIf="loading" class="animate-spin rounded-full h-5 w-5 border-2 border-white border-t-transparent"></span>
+          {{ loading ? 'Submitting...' : 'Submit Request' }}
         </button>
-  
+
       </form>
-  
     </div>
-  
-  
-    <!-- HOW IT WORKS -->
-    <div class="max-w-4xl mx-auto mt-16 bg-green-50 rounded-xl p-10">
-  
-      <h2 class="text-2xl font-bold mb-10">
-        How Video Requests Work
-      </h2>
-  
-      <div class="grid md:grid-cols-3 gap-8 text-center">
-  
-        <div>
-          <div class="w-12 h-12 rounded-full bg-blue-200 flex items-center justify-center mx-auto text-lg font-bold">
-            1
-          </div>
-  
-          <h3 class="mt-4 font-semibold">
-            Submit Request
-          </h3>
-  
-          <p class="text-gray-600 text-sm mt-2">
-            Describe the video you need and provide context
-          </p>
-        </div>
-  
-        <div>
-          <div class="w-12 h-12 rounded-full bg-green-200 flex items-center justify-center mx-auto text-lg font-bold">
-            2
-          </div>
-  
-          <h3 class="mt-4 font-semibold">
-            Community Votes
-          </h3>
-  
-          <p class="text-gray-600 text-sm mt-2">
-            Other students upvote requests they find useful
-          </p>
-        </div>
-  
-        <div>
-          <div class="w-12 h-12 rounded-full bg-purple-200 flex items-center justify-center mx-auto text-lg font-bold">
-            3
-          </div>
-  
-          <h3 class="mt-4 font-semibold">
-            Creators Respond
-          </h3>
-  
-          <p class="text-gray-600 text-sm mt-2">
-            Student creators make videos for popular requests
-          </p>
-        </div>
-  
-      </div>
-  
-    </div>
-  
   </div>
+
+  <!-- HOW IT WORKS SECTION - Enhanced -->
+  <div class="max-w-6xl mx-auto px-4 mt-16 pb-16">
+    <div class="bg-gradient-to-br from-green-50 to-emerald-50 rounded-2xl p-8 md:p-10 overflow-hidden relative">
+      <!-- Decorative Elements -->
+      <div class="absolute top-0 right-0 w-64 h-64 bg-green-200/20 rounded-full blur-3xl"></div>
+      <div class="absolute bottom-0 left-0 w-64 h-64 bg-emerald-200/20 rounded-full blur-3xl"></div>
+      
+      <div class="relative">
+        <div class="text-center mb-10">
+          <div class="inline-flex items-center gap-2 bg-green-100 rounded-full px-4 py-1.5 mb-4">
+            <span class="material-icons text-green-600 text-sm">info</span>
+            <span class="text-green-700 text-sm font-medium">How It Works</span>
+          </div>
+          <h2 class="text-2xl md:text-3xl font-bold text-gray-900 mb-3">
+            Video Requests Made Simple
+          </h2>
+          <p class="text-gray-600 max-w-2xl mx-auto">
+            Get the answers you need through community-powered video content
+          </p>
+        </div>
+
+        <div class="grid md:grid-cols-3 gap-8">
+          
+          <div class="text-center group">
+            <div class="relative">
+              <div class="w-20 h-20 rounded-full bg-white shadow-lg flex items-center justify-center mx-auto mb-4 group-hover:scale-110 transition-transform duration-300">
+                <span class="text-2xl font-bold bg-gradient-to-r from-blue-500 to-purple-600 bg-clip-text text-transparent">1</span>
+              </div>
+              <div class="hidden md:block absolute top-10 left-[60%] w-full h-0.5 bg-gradient-to-r from-blue-300 to-purple-300 group-last:hidden"></div>
+            </div>
+            <div class="mt-4">
+              <div class="w-12 h-12 rounded-full bg-blue-100 flex items-center justify-center mx-auto mb-3">
+                <span class="material-icons text-blue-600">edit</span>
+              </div>
+              <h3 class="font-semibold text-gray-900 mb-2">Submit Request</h3>
+              <p class="text-gray-500 text-sm leading-relaxed">
+                Describe the video you need and provide context for creators
+              </p>
+            </div>
+          </div>
+
+          <div class="text-center group">
+            <div class="relative">
+              <div class="w-20 h-20 rounded-full bg-white shadow-lg flex items-center justify-center mx-auto mb-4 group-hover:scale-110 transition-transform duration-300">
+                <span class="text-2xl font-bold bg-gradient-to-r from-blue-500 to-purple-600 bg-clip-text text-transparent">2</span>
+              </div>
+              <div class="hidden md:block absolute top-10 left-[60%] w-full h-0.5 bg-gradient-to-r from-blue-300 to-purple-300 group-last:hidden"></div>
+            </div>
+            <div class="mt-4">
+              <div class="w-12 h-12 rounded-full bg-green-100 flex items-center justify-center mx-auto mb-3">
+                <span class="material-icons text-green-600">thumb_up</span>
+              </div>
+              <h3 class="font-semibold text-gray-900 mb-2">Community Votes</h3>
+              <p class="text-gray-500 text-sm leading-relaxed">
+                Other students upvote requests they find useful and relevant
+              </p>
+            </div>
+          </div>
+
+          <div class="text-center group">
+            <div class="relative">
+              <div class="w-20 h-20 rounded-full bg-white shadow-lg flex items-center justify-center mx-auto mb-4 group-hover:scale-110 transition-transform duration-300">
+                <span class="text-2xl font-bold bg-gradient-to-r from-blue-500 to-purple-600 bg-clip-text text-transparent">3</span>
+              </div>
+            </div>
+            <div class="mt-4">
+              <div class="w-12 h-12 rounded-full bg-purple-100 flex items-center justify-center mx-auto mb-3">
+                <span class="material-icons text-purple-600">video_call</span>
+              </div>
+              <h3 class="font-semibold text-gray-900 mb-2">Creators Respond</h3>
+              <p class="text-gray-500 text-sm leading-relaxed">
+                Student creators make videos for popular requests within 72 hours
+              </p>
+            </div>
+          </div>
+
+        </div>
+
+        <!-- CTA Button -->
+        <div class="text-center mt-12">
+          <button 
+            (click)="scrollToForm()"
+            class="inline-flex items-center gap-2 px-6 py-3 bg-white text-blue-600 rounded-full font-semibold hover:shadow-lg transition-all duration-200 transform hover:scale-105"
+          >
+            <span class="material-icons">play_arrow</span>
+            Submit Your Request Now
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</div>
+

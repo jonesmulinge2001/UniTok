@@ -4,20 +4,21 @@ import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 import { CommonModule } from '@angular/common';
 import { ReactiveFormsModule } from '@angular/forms';
-import { RouterModule } from '@angular/router';
+import { Router, RouterModule } from '@angular/router';
 import { Video, VideoComment, CreateVideoDto, UpdateVideoDto, LikeStatusResponse, VideoLikeResponse } from '../../interfaces';
 import { VideoCommentService } from '../../services/video-comment.service';
 import { VideoLikeService } from '../../services/video-like.service';
 import { CreateVideoComponent } from "../create-video/create-video.component";
 import { DatePipe } from '@angular/common';
 import { UnitokVideoService } from '../../services/unitok-video.service';
+import { VideoDetailComponent } from '../video-detail/video-detail.component';
 
 @Component({
   selector: 'app-video-manager',
   templateUrl: './video-manager.component.html',
   styleUrl: './video-manager.component.css',
   standalone: true,
-  imports: [CommonModule, ReactiveFormsModule, RouterModule, CreateVideoComponent],
+  imports: [CommonModule, ReactiveFormsModule, RouterModule, CreateVideoComponent, VideoDetailComponent],
   providers: [DatePipe]
 })
 export class VideoManagerComponent implements OnInit, OnDestroy {
@@ -72,6 +73,9 @@ export class VideoManagerComponent implements OnInit, OnDestroy {
   // Comment menu state
   commentMenuOpen: string | null = null;
 
+  showVideoDetail: boolean = false;
+  selectedVideoId: string | null = null;
+
   // ================= CATEGORY SYSTEM =================
 categories: string[] = [
   'All',
@@ -86,12 +90,24 @@ categories: string[] = [
 selectedCategory = 'All';
 isFilteringCategory = false;
 
+selectedVideoForPlayer: Video | null = null;
+showPlayerComments: boolean = false;
+isPlayerPlaying: boolean = true;
+isPlayerMuted: boolean = false;
+showPlayOverlay: boolean = false;
+isPlayerLiked: boolean = false;
+playerLikeCount: number = 0;
+playerCommentCount: number = 0;
+private playerVideoElement: HTMLVideoElement | null = null;
+private playOverlayTimeout: any;
+
   constructor(
     private videoService: UnitokVideoService,
     private commentService: VideoCommentService,
     private likeService: VideoLikeService,
     private fb: FormBuilder,
-    private datePipe: DatePipe
+    private datePipe: DatePipe,
+    private router: Router
   ) {
     // Initialize forms
     this.videoForm = this.fb.group({
@@ -604,4 +620,18 @@ isFilteringCategory = false;
         },
       });
   }
+
+  openVideoDetail(video: Video): void {
+    this.router.navigate(['/videos', video.id]);
+  }
+  
+  closeVideoDetail(): void {
+    this.showVideoDetail = false;
+    this.selectedVideoId = null;
+  }
+  
+  onVideoDeleted(videoId: string): void {
+    this.videos = this.videos.filter(v => v.id !== videoId);
+  }
+
 }

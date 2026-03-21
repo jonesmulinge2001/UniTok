@@ -1,5 +1,5 @@
-import { Component, HostListener, OnInit } from '@angular/core';
-import { CommonModule } from '@angular/common';
+import { Component, HostListener, OnInit, Inject, PLATFORM_ID } from '@angular/core';
+import { CommonModule, isPlatformBrowser } from '@angular/common';
 import { Router, RouterModule } from '@angular/router';
 
 @Component({
@@ -11,45 +11,68 @@ import { Router, RouterModule } from '@angular/router';
 export class SidebarComponent implements OnInit {
   collapsed = false;
   showSidebar = true;
+  isBrowser: boolean;
 
   navItems = [
     { label: 'Home', link: '/home', icon: 'home' },
     { label: 'Network', link: '/network', icon: 'diversity_3' },
     { label: 'Create', link: '/create-video', icon: 'add_circle' },
     { label: 'Request', link: '/request', icon: 'work' },
-    // { label: 'UniTok', link: '/videos', icon: 'video_library' },
-    // { label: 'Opportunities', link: '/opportunities', icon: 'business_center' },
-    // { label: 'Fund Me', link: '/fund-me', icon: 'volunteer_activism' },
-    // { label: 'Groups', link: '/groups', icon: 'handshake' },
   ];
+
+  constructor(
+    private router: Router,
+    @Inject(PLATFORM_ID) private platformId: Object
+  ) {
+    this.isBrowser = isPlatformBrowser(this.platformId);
+  }
+
+  ngOnInit(): void {
+    if (this.isBrowser) {
+      this.showSidebar = window.innerWidth >= 1024;
+    }
+  }
+
+  @HostListener('window:resize', ['$event'])
+  onResize(event: any): void {
+    if (this.isBrowser) {
+      this.showSidebar = window.innerWidth >= 1024;
+    }
+  }
+
+  isActiveRoute(route: string): boolean {
+    return this.router.url === route || this.router.url.startsWith(route + '/');
+  }
 
   getIconGradient(label: string): string {
     const gradients: { [key: string]: string } = {
-      Feed: 'from-pink-500 to-red-500',
+      Home: 'from-blue-500 to-purple-600',
       Network: 'from-indigo-500 to-purple-500',
       Create: 'from-green-500 to-emerald-500',
-      UniTok: 'from-blue-500 to-cyan-500',
-      Opportunities: 'from-yellow-500 to-orange-500',
-      'Fund Me': 'from-black via-red-600 to-green-600', 
+      Request: 'from-orange-500 to-red-500',
     };
   
     const gradient = gradients[label] || 'from-gray-500 to-gray-700';
     return `bg-gradient-to-r ${gradient}`;
   }
-  
 
-  constructor(private router: Router) {}
-
-  ngOnInit(): void {
-    this.showSidebar = window.innerWidth >= 768;                         
-  }
-  
-  isActiveRoute(route: string): boolean {
-    return this.router.url.includes(route);
+  openCreateVideo(): void {
+    this.router.navigate(['/create-video']);
   }
 
-  logout(): void{
-    localStorage.removeItem('token');
-    this.router.navigate(['/login']);
+  openCreateRequest(): void {
+    this.router.navigate(['/request-management']);
+  }
+
+  openSearch(): void {
+    this.router.navigate(['/search']);
+  }
+
+  logout(): void {
+    if (this.isBrowser) {
+      localStorage.removeItem('token');
+      localStorage.removeItem('userId');
+      this.router.navigate(['/login']);
+    }
   }
 }

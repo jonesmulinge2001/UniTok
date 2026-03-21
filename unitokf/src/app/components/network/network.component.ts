@@ -1,10 +1,12 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, Input, OnInit, OnDestroy } from '@angular/core';
 import { Follow, Profile } from '../../interfaces';
 import { ProfileService } from '../../services/profile.service';
 import { CommonModule } from '@angular/common';
 import { FollowService } from '../../services/follow.service';
 import { Router } from '@angular/router';
 import { StudentCardComponent } from '../shared/student-card/student-card.component';
+import { ToastrService } from 'ngx-toastr';
+import { Subject, takeUntil, forkJoin, timer } from 'rxjs';
 
 @Component({
   imports: [CommonModule, StudentCardComponent],
@@ -12,7 +14,7 @@ import { StudentCardComponent } from '../shared/student-card/student-card.compon
   templateUrl: './network.component.html',
   styleUrls: ['./network.component.css']
 })
-export class NetworkComponent implements OnInit {
+export class NetworkComponent implements OnInit, OnDestroy {
   currentUserId: string = '';
   selectedTab: 'all' | 'following' | 'followers' = 'all';
 
@@ -21,6 +23,7 @@ export class NetworkComponent implements OnInit {
   followers: Follow[] = [];
 
   loading: boolean = false;
+  private destroy$ = new Subject<void>();
 
   @Input() profile!: Profile;
   @Input() isFollowing = false;
@@ -28,12 +31,18 @@ export class NetworkComponent implements OnInit {
   constructor(
     private profileService: ProfileService, 
     private followService: FollowService,
-    private router: Router
+    private router: Router,
+    private toastr: ToastrService
   ) {}
 
   ngOnInit() {
     this.currentUserId = localStorage.getItem('userId') || '';
     this.fetchAllData();
+  }
+
+  ngOnDestroy() {
+    this.destroy$.next();
+    this.destroy$.complete();
   }
 
   fetchAllData() {
@@ -43,33 +52,29 @@ export class NetworkComponent implements OnInit {
     const following$ = this.followService.getFollowing(this.currentUserId);
     const followers$ = this.followService.getFollowers(this.currentUserId);
 
-    const startTime = Date.now();
-    let completedRequests = 0;
-
-    const finishLoading = () => {
-      completedRequests++;
-      if (completedRequests === 3) {
-        const elapsed = Date.now() - startTime;
-        const remaining = 2000 - elapsed;
-        setTimeout(() => {
+    // Use forkJoin to wait for all requests
+    forkJoin({
+      all: allProfiles$,
+      following: following$,
+      followers: followers$
+    }).pipe(
+      takeUntil(this.destroy$)
+    ).subscribe({
+      next: (result) => {
+        this.allProfiles = result.all.filter(p => p.userId !== this.currentUserId);
+        this.following = result.following;
+        this.followers = result.followers;
+        
+        // Ensure minimum loading time for better UX
+        timer(500).subscribe(() => {
           this.loading = false;
-        }, remaining > 0 ? remaining : 0);
+        });
+      },
+      error: (err) => {
+        console.error('Error fetching data:', err);
+        this.toastr.error('Failed to load network data', 'Error');
+        this.loading = false;
       }
-    };
-
-    allProfiles$.subscribe(all => {
-      this.allProfiles = all.filter(p => p.userId !== this.currentUserId);
-      finishLoading();
-    });
-
-    following$.subscribe(f => {
-      this.following = f;
-      finishLoading();
-    });
-
-    followers$.subscribe(f => {
-      this.followers = f;
-      finishLoading();
     });
   }
 
@@ -78,14 +83,32 @@ export class NetworkComponent implements OnInit {
   }
 
   followUser(userId: string) {
-    this.profileService.followUser(userId).subscribe(() => {
-      this.fetchAllData(); 
+    this.followService.followUser(userId).pipe(
+      takeUntil(this.destroy$)
+    ).subscribe({
+      next: () => {
+        this.toastr.success('Successfully followed user', 'Success');
+        this.fetchAllData();
+      },
+      error: (err) => {
+        console.error('Error following user:', err);
+        this.toastr.error('Failed to follow user', 'Error');
+      }
     });
   }
   
   unfollowUser(userId: string) {
-    this.profileService.unFollowUser(userId).subscribe(() => {
-      this.fetchAllData();
+    this.followService.unFollowUser(userId).pipe(
+      takeUntil(this.destroy$)
+    ).subscribe({
+      next: () => {
+        this.toastr.info('Unfollowed user', 'Success');
+        this.fetchAllData();
+      },
+      error: (err) => {
+        console.error('Error unfollowing user:', err);
+        this.toastr.error('Failed to unfollow user', 'Error');
+      }
     });
   }
 
